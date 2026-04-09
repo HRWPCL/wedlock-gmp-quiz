@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GMP Quiz | Wedlock Paper Converters Ltd.</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;min-height:100vh;color:#1a1a2e}
+header{background:#1a2744;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.header-inner{max-width:860px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header-left{display:flex;align-items:center;gap:14px}
+.logo-circle{width:46px;height:46px;background:#c0392b;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:17px;flex-shrink:0}
+.header-text h1{color:#fff;font-size:17px;font-weight:700;line-height:1.2}
+.header-text p{color:#a0b0cc;font-size:11px;margin-top:2px}
+.btn-admin-header{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.25);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background 0.2s}
+.btn-admin-header:hover{background:rgba(255,255,255,0.2)}
+.container{max-width:860px;margin:32px auto;padding:0 16px 48px}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:24px}
+.card-header{background:#1a2744;color:#fff;padding:18px 26px}
+.card-header h2{font-size:16px;font-weight:600}
+.card-header p{font-size:12px;color:#a0b0cc;margin-top:3px}
+.card-body{padding:26px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row.full{grid-template-columns:1fr}
+.field label{display:block;font-size:11px;font-weight:600;color:#555;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px}
+.field input,.field select{width:100%;padding:10px 13px;border:1.5px solid #dde3ed;border-radius:8px;font-size:14px;color:#1a1a2e;background:#fafbfc;transition:border 0.2s}
+.field input:focus,.field select:focus{outline:none;border-color:#1a2744;background:#fff}
+.field input.err,.field select.err{border-color:#c0392b}
+.err-msg{color:#c0392b;font-size:11px;margin-top:3px}
+.required{color:#c0392b}
+.btn-primary{width:100%;padding:13px;background:#1a2744;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.2s;margin-top:6px}
+.btn-primary:hover{background:#243a6b}
+.btn-outline{padding:9px 20px;background:transparent;color:#1a2744;border:2px solid #1a2744;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s}
+.btn-outline:hover{background:#1a2744;color:#fff}
+.btn-red{padding:9px 20px;background:#c0392b;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background 0.2s}
+.btn-red:hover{background:#a93226}
+.btn-green{padding:9px 20px;background:#27ae60;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background 0.2s}
+.btn-green:hover{background:#1e8449}
+.progress-bar{height:5px;background:#e8edf5;border-radius:3px;margin-bottom:22px}
+.progress-fill{height:100%;background:#1a2744;border-radius:3px;transition:width 0.4s}
+.q-counter{font-size:12px;color:#888;margin-bottom:7px;font-weight:500}
+.q-text{font-size:16px;font-weight:600;color:#1a2744;line-height:1.5;margin-bottom:18px}
+.option{display:flex;align-items:flex-start;gap:11px;padding:12px 15px;border:1.5px solid #dde3ed;border-radius:8px;margin-bottom:9px;cursor:pointer;transition:all 0.2s;background:#fafbfc}
+.option:hover{border-color:#1a2744;background:#f0f4ff}
+.option.selected{border-color:#1a2744;background:#eef2ff}
+.opt-letter{width:26px;height:26px;border-radius:50%;border:2px solid #ccc;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;color:#666}
+.option.selected .opt-letter{border-color:#1a2744;color:#1a2744}
+.opt-text{font-size:14px;color:#1a1a2e;line-height:1.4;padding-top:2px}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+.score-circle{width:100px;height:100px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 18px;border:5px solid}
+.score-circle.pass{border-color:#27ae60;background:#edfaf1}
+.score-circle.fail{border-color:#c0392b;background:#fdf0ee}
+.score-num{font-size:28px;font-weight:800;line-height:1}
+.score-pct{font-size:13px;font-weight:600;margin-top:2px}
+.result-label{font-size:20px;font-weight:700;margin-bottom:6px}
+.result-label.pass{color:#27ae60}.result-label.fail{color:#c0392b}
+.review-item{padding:14px 0;border-bottom:1px solid #f0f0f0}
+.review-item:last-child{border-bottom:none}
+.review-q{font-size:13px;font-weight:600;color:#1a2744;margin-bottom:7px;display:flex;gap:7px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;flex-shrink:0}
+.badge.pass{background:#edfaf1;color:#27ae60}.badge.fail{background:#fdf0ee;color:#c0392b}
+.review-ans{font-size:12px;margin-bottom:2px}
+.review-exp{font-size:11px;color:#888;font-style:italic;margin-top:5px;padding:7px;background:#f8f9fa;border-radius:5px;border-left:3px solid #1a2744}
+.notice-box{background:#fff8e1;border:1.5px solid #f9c82b;border-radius:8px;padding:14px 18px;margin:16px 0;font-size:13px;color:#7d5a00;line-height:1.6}
+.loader{text-align:center;padding:44px 26px}
+.spinner{width:40px;height:40px;border:4px solid #e8edf5;border-top:4px solid #1a2744;border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.step-indicator{display:flex;gap:8px;justify-content:center;margin-bottom:26px}
+.step{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#bbb}
+.step.active{color:#1a2744}.step.done{color:#27ae60}
+.step-dot{width:7px;height:7px;border-radius:50%;background:#ddd}
+.step.active .step-dot{background:#1a2744}.step.done .step-dot{background:#27ae60}
+.sdivider{width:20px;height:1px;background:#ddd;margin-top:3px}
+
+/* ── ADMIN OVERLAY ── */
+#adminOverlay{display:none;position:fixed;inset:0;background:rgba(8,15,35,0.94);z-index:9999;overflow-y:auto;padding:24px 16px}
+.admin-shell{max-width:1000px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 10px 48px rgba(0,0,0,0.5);min-height:80vh;display:flex;flex-direction:column}
+.admin-topbar{background:#1a2744;color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.admin-topbar h2{font-size:16px;font-weight:700;display:flex;align-items:center;gap:10px}
+.admin-pill{background:#c0392b;color:#fff;font-size:9px;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:1px}
+.admin-topbar-right{display:flex;align-items:center;gap:10px}
+.btn-close-admin{background:rgba(255,255,255,0.12);border:none;color:#fff;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.btn-close-admin:hover{background:rgba(255,255,255,0.25)}
+
+/* login */
+.admin-login-body{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 24px}
+.admin-login-box{max-width:360px;width:100%;text-align:center}
+.admin-login-box h3{font-size:20px;font-weight:700;color:#1a2744;margin-bottom:6px}
+.admin-login-box p{font-size:13px;color:#888;margin-bottom:22px}
+.admin-login-box input{width:100%;padding:12px 16px;border:1.5px solid #dde3ed;border-radius:8px;font-size:16px;letter-spacing:3px;text-align:center;margin-bottom:8px}
+.admin-login-box input:focus{outline:none;border-color:#1a2744}
+.admin-login-box input.err{border-color:#c0392b}
+.admin-login-err{color:#c0392b;font-size:12px;min-height:16px;margin-bottom:10px}
+
+/* tabs */
+.admin-tabs{display:flex;border-bottom:2px solid #eee;padding:0 24px;background:#fafbfc;flex-shrink:0}
+.admin-tab{padding:12px 20px;font-size:13px;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;white-space:nowrap}
+.admin-tab.active{color:#1a2744;border-bottom-color:#1a2744}
+.admin-tab-count{display:inline-flex;align-items:center;justify-content:center;background:#e8edf5;color:#1a2744;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;margin-left:6px}
+.admin-tab-count.has{background:#c0392b;color:#fff}
+.admin-content{flex:1;overflow-y:auto;padding:24px}
+
+/* session list */
+.session-card{border:1.5px solid #dde3ed;border-radius:10px;margin-bottom:12px;overflow:hidden;cursor:pointer;transition:border-color 0.2s}
+.session-card:hover{border-color:#1a2744}
+.session-card.open{border-color:#1a2744}
+.session-card-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;background:#fafbfc;gap:12px}
+.session-card-header:hover{background:#f0f4ff}
+.session-info{flex:1;min-width:0}
+.session-name{font-size:14px;font-weight:600;color:#1a2744}
+.session-meta{font-size:11px;color:#888;margin-top:2px}
+.session-result{display:flex;align-items:center;gap:8px}
+.result-pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.result-pill.pass{background:#edfaf1;color:#27ae60}
+.result-pill.fail{background:#fdf0ee;color:#c0392b}
+.session-body{display:none;padding:18px;border-top:1px solid #eee;background:#fff}
+.session-card.open .session-body{display:block}
+.session-dl-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0}
+
+/* summary table */
+.summary-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.summary-table{width:100%;border-collapse:collapse;font-size:13px}
+.summary-table th{background:#1a2744;color:#fff;padding:10px 12px;text-align:left;font-weight:600;font-size:12px}
+.summary-table td{padding:10px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+.summary-table tr:last-child td{border-bottom:none}
+.summary-table tr:hover td{background:#f8f9fa}
+.pill-sm{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.pill-pass{background:#edfaf1;color:#27ae60}.pill-fail{background:#fdf0ee;color:#c0392b}
+.empty-state{text-align:center;padding:60px 24px;color:#aaa}
+.empty-state div{font-size:40px;margin-bottom:12px}
+.empty-state p{font-size:14px}
+
+footer{text-align:center;color:#aaa;font-size:11px;padding:14px;border-top:1px solid #eee;margin-top:8px}
+@media(max-width:560px){
+  .form-row{grid-template-columns:1fr}
+  .nav-row,.session-dl-row{flex-direction:column}
+  .btn-outline,.btn-red,.btn-green,.btn-primary{width:100%}
+  .admin-tabs{overflow-x:auto}
+  .header-text h1{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="logo-circle">W</div>
+      <div class="header-text">
+        <h1>Wedlock Paper Converters Ltd.</h1>
+        <p>Good Manufacturing Practices (GMP) — Employee Quiz</p>
+      </div>
+    </div>
+    <button class="btn-admin-header" onclick="openAdminPortal()">🔐 Admin Portal</button>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════
+     ADMIN OVERLAY
+═══════════════════════════════════════════════════ -->
+<div id="adminOverlay">
+  <div class="admin-shell">
+    <div class="admin-topbar">
+      <h2>Administrator Portal <span class="admin-pill">ADMIN ONLY</span></h2>
+      <div class="admin-topbar-right">
+        <button class="btn-close-admin" onclick="closeAdminPortal()" title="Close">✕</button>
+      </div>
+    </div>
+
+    <!-- LOGIN SCREEN -->
+    <div class="admin-login-body" id="adminLoginBody">
+      <div class="admin-login-box">
+        <div style="font-size:44px;margin-bottom:12px">🔐</div>
+        <h3>Administrator Access</h3>
+        <p>Enter the administrator password to view all quiz records, session details, and download compliance reports.</p>
+        <input type="password" id="adminPwInput" placeholder="Password" onkeydown="if(event.key==='Enter')attemptLogin()">
+        <div class="admin-login-err" id="adminLoginErr"></div>
+        <button class="btn-green" style="width:100%;padding:12px" onclick="attemptLogin()">Unlock Portal →</button>
+        <div style="margin-top:14px;font-size:11px;color:#ccc">Restricted to authorized personnel only.</div>
+      </div>
+    </div>
+
+    <!-- PORTAL CONTENT (after login) -->
+    <div id="adminContent" style="display:none;flex:1;display:none;flex-direction:column">
+      <div style="background:#edfaf1;border-bottom:1px solid #27ae6033;padding:10px 24px;font-size:12px;color:#1e6e40;display:flex;align-items:center;justify-content:space-between">
+        <span>✓ <strong>Authenticated.</strong> Showing all quiz sessions. Lock the portal when finished.</span>
+        <button class="btn-red" style="padding:5px 14px;font-size:12px" onclick="closeAdminPortal()">🔒 Lock &amp; Exit</button>
+      </div>
+
+      <div class="admin-tabs">
+        <div class="admin-tab active" id="tabSessions" onclick="showTab('sessions')">
+          All Sessions <span class="admin-tab-count" id="sessionCount">0</span>
+        </div>
+        <div class="admin-tab" id="tabSummary" onclick="showTab('summary')">
+          Summary Report <span class="admin-tab-count" id="summaryCount">0</span>
+        </div>
+      </div>
+
+      <!-- Sessions tab -->
+      <div class="admin-content" id="panelSessions">
+        <div id="sessionsBody"></div>
+      </div>
+
+      <!-- Summary tab -->
+      <div class="admin-content" id="panelSummary" style="display:none">
+        <div class="summary-toolbar">
+          <div style="font-size:14px;font-weight:600;color:#1a2744">All Employee Quiz Results</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-green" onclick="downloadExcel()">⬇ Download Summary (.xlsx)</button>
+            <button class="btn-outline" onclick="downloadSummaryTxt()">⬇ Download Summary (.txt)</button>
+          </div>
+        </div>
+        <div id="summaryTableWrap"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     MAIN QUIZ APP
+═══════════════════════════════════════════════════ -->
+<div class="container">
+
+  <div class="step-indicator">
+    <div class="step active" id="si1"><div class="step-dot"></div> Registration</div>
+    <div class="sdivider"></div>
+    <div class="step" id="si2"><div class="step-dot"></div> Quiz</div>
+    <div class="sdivider"></div>
+    <div class="step" id="si3"><div class="step-dot"></div> Results</div>
+  </div>
+
+  <!-- REGISTRATION -->
+  <div id="stepReg">
+    <div class="card">
+      <div class="card-header">
+        <h2>Employee Registration</h2>
+        <p>Complete all fields before your quiz begins.</p>
+      </div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="field">
+            <label>First Name <span class="required">*</span></label>
+            <input type="text" id="firstName" placeholder="e.g. Jane">
+            <div class="err-msg" id="eFirstName"></div>
+          </div>
+          <div class="field">
+            <label>Last Name <span class="required">*</span></label>
+            <input type="text" id="lastName" placeholder="e.g. Smith">
+            <div class="err-msg" id="eLastName"></div>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="field">
+            <label>Employee Number <span class="required">*</span></label>
+            <input type="text" id="empNum" placeholder="e.g. 1042">
+            <div class="err-msg" id="eEmpNum"></div>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="field">
+            <label>Position / Job Title <span class="required">*</span></label>
+            <select id="position">
+              <option value="">— Select your position —</option>
+              <option>Mounting</option><option>Quality Control</option>
+              <option>Machine Attendant</option><option>Production Administrator</option>
+              <option>Bailing</option><option>Customer Service</option>
+              <option>Machine Operator</option><option>Accounts Payable</option>
+              <option>Product Coordinator</option><option>Press Helper</option>
+              <option>Purchasing</option><option>Office Manager</option>
+              <option>Temp Machine Attendant</option><option>Temp - Fork Lift</option>
+              <option>Inventory Control</option><option>Material Handler</option>
+              <option>Maintenance Mechanic</option><option>Press Operator</option>
+              <option>Director of HR</option><option>General Labourer</option>
+              <option>Plant Manager</option><option>PrePress Coordinator</option>
+              <option>Plant Supervisor</option><option>Quality Control Manager</option>
+            </select>
+            <div class="err-msg" id="ePosition"></div>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="field">
+            <label>Department <span class="required">*</span></label>
+            <select id="dept">
+              <option value="">— Select your department —</option>
+              <option>BAILING</option><option>INVENTORY</option>
+              <option>BAG DEPARTMENT</option><option>SHIPPING</option>
+              <option>MAINTENANCE</option><option>PRESS DEPARTMENT</option>
+              <option>SUPERVISORS PLANT</option><option>QA DEPARTMENT</option>
+              <option>Wikoff Colour</option><option>OFFICE</option>
+              <option>HUMAN RESOURCES</option><option>CUSTOMER SERVICE</option>
+              <option>PREPRESS</option><option>FINANCE</option>
+              <option>EXECUTIVE</option><option>PLANT MANAGEMENT</option>
+            </select>
+            <div class="err-msg" id="eDept"></div>
+          </div>
+        </div>
+        <button class="btn-primary" onclick="startQuiz()">Submit &amp; Begin Quiz →</button>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:11px;color:#aaa;margin-top:6px">
+      5 randomized questions · Passing score 4/5 (80%) · Results stored for compliance tracking
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="stepLoading" style="display:none">
+    <div class="card">
+      <div class="loader">
+        <div class="spinner"></div>
+        <p style="font-size:14px;color:#666">Generating your personalized quiz…<br><span style="font-size:12px;color:#aaa">Analyzing GMP training content</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="stepQuiz" style="display:none">
+    <div class="card">
+      <div class="card-header">
+        <h2>GMP Knowledge Quiz</h2>
+        <p id="qCardSub"></p>
+      </div>
+      <div class="card-body">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="q-counter" id="qCounter"></div>
+        <div class="q-text" id="qText"></div>
+        <div id="optionsWrap"></div>
+        <div id="qErrMsg" style="color:#c0392b;font-size:12px;margin-bottom:8px"></div>
+        <div class="nav-row">
+          <button class="btn-outline" id="btnBack" onclick="prevQ()" style="display:none">← Back</button>
+          <div></div>
+          <button class="btn-primary" id="btnNext" onclick="nextQ()" style="width:auto;padding:10px 26px">Next →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS (employee view) -->
+  <div id="stepResults" style="display:none">
+    <div class="card">
+      <div class="card-header">
+        <h2>Quiz Complete</h2>
+        <p id="resCardSub"></p>
+      </div>
+      <div class="card-body">
+        <div style="text-align:center;margin-bottom:24px">
+          <div class="score-circle" id="scoreCircle">
+            <div class="score-num" id="scoreNum"></div>
+            <div class="score-pct" id="scorePct"></div>
+          </div>
+          <div class="result-label" id="resultLabel"></div>
+          <div style="font-size:13px;color:#666">Passing score: 4 / 5 (80%)</div>
+        </div>
+        <div class="notice-box">
+          📋 <strong>Your quiz has been submitted.</strong> Your supervisor can access the full record via the Admin Portal. Please notify them that you have completed the quiz.
+        </div>
+        <div style="font-size:12px;font-weight:600;color:#1a2744;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Your Question Review</div>
+        <div style="font-size:11px;color:#888;margin-bottom:14px">Download and print options are available to your supervisor only via the Admin Portal.</div>
+        <div id="empReviewBody"></div>
+      </div>
+      <div style="padding:16px 26px;border-top:1px solid #eee;background:#fafbfc">
+        <button class="btn-red" onclick="resetAll()">← Start New Employee Quiz</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>&copy; 2025 Wedlock Paper Converters Ltd. &nbsp;|&nbsp; GMP Training Quiz System &nbsp;|&nbsp; Confidential – For Internal Use Only</footer>
+
+<script>
+/* ─────────────────────────────────────────
+   CONFIG — change password here
+───────────────────────────────────────── */
+const ADMIN_PASSWORD = 'Wedlock2025';
+
+/* ─────────────────────────────────────────
+   SUPABASE CONFIG
+───────────────────────────────────────── */
+const SUPA_URL = 'https://djomfiopcjnscjpmfwct.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqb21maW9wY2puc2NqcG1md2N0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2OTU5MDAsImV4cCI6MjA5MTI3MTkwMH0.YmTIYHSB5R4yd5BUA3oEZfLyO0VJkPnSpSHDvpICWpM';
+const SUPA_HEADERS = { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` };
+
+async function dbSaveSession(s) {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/quiz_sessions`, {
+      method: 'POST',
+      headers: { ...SUPA_HEADERS, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({
+        first_name:     s.emp.firstName,
+        last_name:      s.emp.lastName,
+        emp_number:     s.emp.empNum,
+        position:       s.emp.position,
+        department:     s.emp.dept,
+        score:          s.score,
+        total:          s.total,
+        pct:            s.pct,
+        passed:         s.passed,
+        date_completed: s.emp.date,
+        quiz_detail:    { quiz: s.quiz, answers: s.answers }
+      })
+    });
+    if (!res.ok) { const e = await res.text(); console.error('Supabase save error:', e); }
+  } catch(e) { console.error('Supabase save failed:', e); }
+}
+
+async function dbLoadSessions() {
+  try {
+    const res = await fetch(`${SUPA_URL}/rest/v1/quiz_sessions?select=*&order=date_completed.desc`, {
+      headers: SUPA_HEADERS
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const rows = await res.json();
+    // Map DB rows → allSessions format
+    allSessions = rows.map(r => ({
+      id:      r.id,
+      emp: {
+        firstName: r.first_name,
+        lastName:  r.last_name,
+        empNum:    r.emp_number,
+        position:  r.position,
+        dept:      r.department,
+        date:      r.date_completed
+      },
+      quiz:    r.quiz_detail?.quiz    || [],
+      answers: r.quiz_detail?.answers || {},
+      score:   r.score,
+      total:   r.total,
+      pct:     r.pct,
+      passed:  r.passed
+    }));
+  } catch(e) { console.error('Supabase load failed:', e); allSessions = []; }
+}
+
+/* ─────────────────────────────────────────
+   GMP CONTENT
+───────────────────────────────────────── */
+const GMP_CONTENT = `
+WHAT IS GMP: Good Manufacturing Practice (GMP) is a system of processes, procedures, and documentation that ensures products are consistently produced and controlled according to quality standards. GMP minimizes risks involved in production that cannot be eliminated through testing the final product. The three pillars are People (trained qualified staff), Processes (validated documented procedures), and Products (raw materials and finished goods meeting specifications).
+
+SAFETY POLICY: At Wedlock Paper Converters Ltd., the health and safety of employees is paramount. Supervisors and managers are accountable for ensuring the safety of those under their supervision, including maintaining safe equipment and ensuring tasks are performed in accordance with established safe work practices. Employees must receive sufficient training to carry out their duties safely. Each employee plays an important role by complying with the Occupational Health and Safety Act, applicable regulations, and internal policies. There is no urgency that outweighs the importance of doing work safely.
+
+QUALITY POLICY: Wedlock's policy is to provide safe and legal products of the highest possible standards. A Food Safety and Quality Management System containing food safety policies and procedures meets legal requirements and industry best practices. A robust Hazard Analysis Critical Control Points (HACCP) system has been implemented. Senior Management is directly responsible for food safety, quality, and legality. All employees are individually responsible for the quality of their work.
+
+PERSONAL HYGIENE: Personal hygiene refers to daily practices to keep bodies clean and healthy to prevent illness, contamination, and spread of germs. Requirements include: washing hands before work, after breaks, and after restroom use; wearing clean and designated work clothes; keeping hair, skin, and nails clean; reporting illness, open wounds, or infections to supervisors; using required PPE correctly including hair nets, beard nets, gloves, and masks; avoiding jewelry, watches, strong perfumes, and personal items in production areas.
+
+GENERAL HYGIENE AND GMP RULES: Always maintain a clean and orderly work area. Dispose of waste in designated bins only. Never place materials or tools directly on the floor. Keep food, drinks, gum and tobacco out of production area. Report unhygienic conditions immediately to supervisor. Only clear plastic water bottles are allowed on the production floor. Clean spills immediately to prevent contaminations and accidents. For any cuts, wounds or open sores, these must be cleaned and covered with bandages before entering the production facility.
+
+SMOKING AND DRUG USE: Cannabis is prohibited at any workplace despite being legal in Canada. Any use or possession of alcohol, drugs and cannabis is strictly not allowed at the workplace. Cigarette smoking and vaping is strictly prohibited within a minimum of 3 meters around the building perimeter. All smoking activities should be done 9 meters away from the building and all cigarette butts MUST be disposed of in the receptacles placed outside near the parking lot.
+
+GENERAL GUIDELINES ON THE PRODUCTION FLOOR: All employees must leave personal belongings in lockers or the lunchroom. Phones, ear pods or wireless headphones are strictly prohibited on the production floor unless approved by upper management. Heavy makeup, heavy jewelry, rings, earrings, artificial nails, nail polish are not allowed on the production floor. All employees must wear clean clothes to work - tank tops, loose clothing, torn or ripped jeans are not allowed. For employees with long hair, hair must be tied up in a bun and not left open or in a ponytail.
+
+CHEMICAL CONTROL: All chemicals MUST be kept in the chemical cabinet at all times when not in use. If any associate finds chemicals lying around the facility not in use, they MUST report it to their shift supervisor or designee. Chemical cabinets located in the plant MUST be locked at all times. Only designated employees have access to these cabinets. Any new chemicals introduced into the facility must be approved by the Quality or Safety leads. The SDS binder should always be placed on top of the chemical cabinet if not in use. The Ink room door must be left closed at all times and only designated employees can enter.
+
+PERSONAL PROTECTIVE EQUIPMENT (PPE): All personnel MUST wear PPE on the production floor at all times. Open toed shoes are not allowed; all employees must wear CSA approved safety shoes with the green tag. All employees MUST wear hair nets and beard nets ALL times during production hours. Only designated employees allowed in the Ink room must wear aprons prior to entering. Latex gloves are not allowed on the production lines; employees must use gloves approved by management.
+
+GOOD DOCUMENTATION PRACTICES (GDP): All paperwork signed by employees MUST be signed with a ball point pen. Pencils, white-out, gel pens, liquid ink pens are not permitted for signing documentation on the production floor. All records MUST be completed in real time (not early or late). Any employee found falsifying information will be dealt with serious disciplinary actions. Over writing, scratching, multiple striking on documents is not allowed. All documents used as production and quality checklists must be controlled documents with a document and revision number. The GMP golden rule: "If it isn't written down, it didn't happen."
+
+HEALTH AND SAFETY: Follow all site safety rules, procedures and posted signage. Wear required PPE at all times. Operate machinery and equipment only if trained and authorized. Report unsafe conditions, near-misses, and incidents immediately. Follow proper lifting techniques and ergonomic practices. Never bypass safety guards or safety devices on equipment. Know emergency procedures, alarm signals and exit routes.
+
+ROLES AND RESPONSIBILITIES: Production Operators follow SOPs, complete batch records accurately, report deviations immediately, maintain hygiene and housekeeping standards. Supervisors/Team Leads verify correct materials and procedures are used, oversee in-process checks, ensure staff training is current. Quality Control performs inspections and testing, approves or rejects materials and products, maintains all QC records. Quality Assurance owns the GMP system, conducts audits, manages CAPA, ensures regulatory compliance. Maintenance executes preventive maintenance schedules, calibrates equipment, documents all work performed. Management provides resources for GMP, sets quality objectives, reviews performance metrics, champions quality culture.
+
+CONTINUOUS IMPROVEMENT: The Plan-Do-Check-Act (PDCA) cycle: Plan means identify quality gaps and set improvement objectives; Do means implement changes on a trial basis and train affected staff; Check means monitor results and compare against expected outcomes; Act means standardize successful changes and update SOPs. CAPA (Corrective and Preventive Action) includes root cause analysis for all non-conformances, corrective actions address the immediate problem, preventive actions eliminate recurrence. GMP Audits include scheduled internal audits, unannounced spot-checks, and external audits with findings tracked to closure.
+
+KEY TAKEAWAYS: GMP protects product quality, customer safety, and Wedlock's reputation. Every team member plays a critical role in maintaining GMP standards. Documentation is non-negotiable — if it isn't recorded, it didn't happen. Deviations must be reported immediately — never ignored or hidden. Continuous improvement is everyone's responsibility. Quality is not an act — it is a habit.
+`;
+
+/* ─────────────────────────────────────────
+   STATE
+───────────────────────────────────────── */
+let emp={}, quiz=[], answers={}, currentQ=0, finalScore=0;
+let adminUnlocked=false;
+let allSessions=[]; // persists across quizzes for the admin
+
+/* ─────────────────────────────────────────
+   REGISTRATION
+───────────────────────────────────────── */
+function validate(){
+  let ok=true;
+  [{id:'firstName',eid:'eFirstName',msg:'First name is required'},
+   {id:'lastName', eid:'eLastName', msg:'Last name is required'},
+   {id:'empNum',   eid:'eEmpNum',   msg:'Employee number is required'},
+   {id:'position', eid:'ePosition', msg:'Please select your position'},
+   {id:'dept',     eid:'eDept',     msg:'Please select your department'}
+  ].forEach(f=>{
+    const el=document.getElementById(f.id),em=document.getElementById(f.eid);
+    if(!el.value.trim()){el.classList.add('err');em.textContent=f.msg;ok=false;}
+    else{el.classList.remove('err');em.textContent='';}
+  });
+  return ok;
+}
+
+/* ─────────────────────────────────────────
+   QUIZ GENERATION
+───────────────────────────────────────── */
+async function startQuiz(){
+  if(!validate()) return;
+  emp={firstName:document.getElementById('firstName').value.trim(),
+       lastName: document.getElementById('lastName').value.trim(),
+       empNum:   document.getElementById('empNum').value.trim(),
+       position: document.getElementById('position').value,
+       dept:     document.getElementById('dept').value,
+       date:     new Date().toLocaleString()};
+  document.getElementById('stepReg').style.display='none';
+  document.getElementById('stepLoading').style.display='block';
+  setStep(2);
+  try{
+    const seed=Math.floor(Math.random()*99999);
+    const res=await fetch('/.netlify/functions/generate-quiz',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        seed,
+        prompt:`Generate 5 randomized GMP quiz questions from:\n\n${GMP_CONTENT}\n\nReturn only JSON array.`
+      })
+    });
+    const data=await res.json();
+    const raw=data.text;
+    quiz=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    if(!Array.isArray(quiz)||quiz.length<5) throw new Error('Bad quiz data');
+    quiz=quiz.slice(0,5); answers={}; currentQ=0;
+    document.getElementById('stepLoading').style.display='none';
+    document.getElementById('stepQuiz').style.display='block';
+    document.getElementById('qCardSub').textContent=`${emp.firstName} ${emp.lastName} — ${emp.position} — Emp #${emp.empNum}`;
+    renderQ();
+  }catch(e){
+    document.getElementById('stepLoading').style.display='none';
+    document.getElementById('stepReg').style.display='block';
+    setStep(1);
+    alert('Quiz generation failed. Check connection and try again.\n\n'+e.message);
+  }
+}
+
+/* ─────────────────────────────────────────
+   QUIZ RENDER / NAV
+───────────────────────────────────────── */
+function renderQ(){
+  const q=quiz[currentQ],total=quiz.length;
+  document.getElementById('progressFill').style.width=((currentQ/total)*100)+'%';
+  document.getElementById('qCounter').textContent=`Question ${currentQ+1} of ${total}`;
+  document.getElementById('qText').textContent=q.question;
+  document.getElementById('qErrMsg').textContent='';
+  const wrap=document.getElementById('optionsWrap'); wrap.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const div=document.createElement('div');
+    div.className='option'+(answers[currentQ]===i?' selected':'');
+    div.onclick=()=>selectOpt(i);
+    div.innerHTML=`<div class="opt-letter">${String.fromCharCode(65+i)}</div><div class="opt-text">${opt}</div>`;
+    wrap.appendChild(div);
+  });
+  document.getElementById('btnBack').style.display=currentQ>0?'block':'none';
+  document.getElementById('btnNext').textContent=currentQ===total-1?'Submit Quiz ✓':'Next →';
+}
+function selectOpt(i){
+  answers[currentQ]=i;
+  document.querySelectorAll('.option').forEach((el,idx)=>el.classList.toggle('selected',idx===i));
+  document.getElementById('qErrMsg').textContent='';
+}
+function nextQ(){
+  if(answers[currentQ]===undefined){document.getElementById('qErrMsg').textContent='Please select an answer.';return;}
+  if(currentQ<quiz.length-1){currentQ++;renderQ();}else showResults();
+}
+function prevQ(){if(currentQ>0){currentQ--;renderQ();}}
+
+/* ─────────────────────────────────────────
+   BUILD REVIEW HTML
+───────────────────────────────────────── */
+function buildReviewHTML(qArr,ans){
+  let h='';
+  qArr.forEach((q,i)=>{
+    const correct=ans[i]===q.correct;
+    h+=`<div class="review-item">
+      <div class="review-q"><span class="badge ${correct?'pass':'fail'}">${correct?'✓ Correct':'✗ Incorrect'}</span> Q${i+1}: ${q.question}</div>
+      <div class="review-ans" style="color:${correct?'#27ae60':'#c0392b'}">Answer: ${String.fromCharCode(65+ans[i])}. ${q.options[ans[i]]}</div>
+      ${!correct?`<div class="review-ans" style="color:#27ae60">Correct: ${String.fromCharCode(65+q.correct)}. ${q.options[q.correct]}</div>`:''}
+      <div class="review-exp">${q.explanation}</div>
+    </div>`;
+  });
+  return h;
+}
+
+/* ─────────────────────────────────────────
+   SHOW RESULTS + SAVE SESSION
+───────────────────────────────────────── */
+function showResults(){
+  document.getElementById('stepQuiz').style.display='none';
+  setStep(3);
+  finalScore=0;
+  quiz.forEach((q,i)=>{if(answers[i]===q.correct)finalScore++;});
+  const passed=finalScore>=4, pct=Math.round((finalScore/quiz.length)*100);
+
+  // Save session locally + to Supabase
+  const session={id:Date.now(), emp:{...emp}, quiz:[...quiz], answers:{...answers}, score:finalScore, total:quiz.length, passed, pct};
+  allSessions.unshift(session);
+  dbSaveSession(session);
+  refreshAdminUI();
+
+  // Employee display
+  const circle=document.getElementById('scoreCircle');
+  circle.className='score-circle '+(passed?'pass':'fail');
+  document.getElementById('scoreNum').textContent=`${finalScore}/${quiz.length}`;
+  document.getElementById('scorePct').textContent=`${pct}%`;
+  const rl=document.getElementById('resultLabel');
+  rl.textContent=passed?'✓ Quiz Passed':'✗ Quiz Not Passed';
+  rl.className='result-label '+(passed?'pass':'fail');
+  document.getElementById('resCardSub').textContent=`${emp.firstName} ${emp.lastName} — ${emp.position} — ${emp.date}`;
+  document.getElementById('empReviewBody').innerHTML=buildReviewHTML(quiz,answers);
+  document.getElementById('stepResults').style.display='block';
+}
+
+/* ─────────────────────────────────────────
+   STEP INDICATOR
+───────────────────────────────────────── */
+function setStep(n){
+  [1,2,3].forEach(i=>{
+    const el=document.getElementById('si'+i);
+    el.className='step'+(i===n?' active':i<n?' done':'');
+  });
+}
+
+/* ─────────────────────────────────────────
+   RESET
+───────────────────────────────────────── */
+function resetAll(){
+  emp={}; quiz=[]; answers={}; currentQ=0; finalScore=0;
+  ['firstName','lastName','empNum'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('position').value='';
+  document.getElementById('dept').value='';
+  document.getElementById('stepResults').style.display='none';
+  document.getElementById('stepReg').style.display='block';
+  setStep(1);
+}
+
+/* ─────────────────────────────────────────
+   ADMIN PORTAL
+───────────────────────────────────────── */
+function openAdminPortal(){
+  document.getElementById('adminOverlay').style.display='block';
+  document.body.style.overflow='hidden';
+  if(!adminUnlocked){
+    document.getElementById('adminLoginBody').style.display='flex';
+    document.getElementById('adminContent').style.display='none';
+    document.getElementById('adminPwInput').value='';
+    document.getElementById('adminLoginErr').textContent='';
+    document.getElementById('adminPwInput').classList.remove('err');
+    setTimeout(()=>document.getElementById('adminPwInput').focus(),120);
+  }
+}
+
+function closeAdminPortal(){
+  document.getElementById('adminOverlay').style.display='none';
+  document.body.style.overflow='';
+}
+
+async function attemptLogin(){
+  const pw=document.getElementById('adminPwInput').value;
+  const errEl=document.getElementById('adminLoginErr');
+  const inp=document.getElementById('adminPwInput');
+  if(pw===ADMIN_PASSWORD){
+    adminUnlocked=true;
+    inp.classList.remove('err');
+    errEl.textContent='';
+    errEl.style.color='#888';
+    errEl.textContent='Loading sessions…';
+    document.getElementById('adminLoginBody').style.display='none';
+    const ac=document.getElementById('adminContent');
+    ac.style.display='flex'; ac.style.flexDirection='column';
+    await dbLoadSessions();
+    refreshAdminUI();
+  }else{
+    inp.classList.add('err');
+    errEl.style.color='#c0392b';
+    errEl.textContent='Incorrect password. Access denied.';
+    inp.value=''; inp.focus();
+  }
+}
+
+/* ─────────────────────────────────────────
+   ADMIN TABS
+───────────────────────────────────────── */
+function showTab(tab){
+  document.getElementById('tabSessions').classList.toggle('active',tab==='sessions');
+  document.getElementById('tabSummary').classList.toggle('active',tab==='summary');
+  document.getElementById('panelSessions').style.display=tab==='sessions'?'block':'none';
+  document.getElementById('panelSummary').style.display=tab==='summary'?'block':'none';
+}
+
+/* ─────────────────────────────────────────
+   REFRESH ADMIN UI
+───────────────────────────────────────── */
+function refreshAdminUI(){
+  if(!adminUnlocked) return;
+  const n=allSessions.length;
+  // Tab counts
+  document.getElementById('sessionCount').textContent=n;
+  document.getElementById('sessionCount').className='admin-tab-count'+(n>0?' has':'');
+  document.getElementById('summaryCount').textContent=n;
+  document.getElementById('summaryCount').className='admin-tab-count'+(n>0?' has':'');
+
+  // Sessions panel
+  const sb=document.getElementById('sessionsBody');
+  if(n===0){
+    sb.innerHTML=`<div class="empty-state"><div>📋</div><p>No quiz sessions yet.<br>Sessions will appear here as employees complete the quiz.</p></div>`;
+  }else{
+    sb.innerHTML='';
+    // Newest first
+    [...allSessions].reverse().forEach(s=>{
+      const card=document.createElement('div');
+      card.className='session-card';
+      card.id='sc_'+s.id;
+      card.innerHTML=`
+        <div class="session-card-header" onclick="toggleSession(${s.id})">
+          <div class="session-info">
+            <div class="session-name">${s.emp.firstName} ${s.emp.lastName}</div>
+            <div class="session-meta">Emp #${s.emp.empNum} &nbsp;·&nbsp; ${s.emp.position} &nbsp;·&nbsp; ${s.emp.dept} &nbsp;·&nbsp; ${s.emp.date}</div>
+          </div>
+          <div class="session-result">
+            <div style="font-size:13px;font-weight:700;color:#1a2744">${s.score}/${s.total} (${s.pct}%)</div>
+            <div class="result-pill ${s.passed?'pass':'fail'}">${s.passed?'PASS':'FAIL'}</div>
+            <div style="color:#aaa;font-size:18px">›</div>
+          </div>
+        </div>
+        <div class="session-body">
+          ${buildReviewHTML(s.quiz,s.answers)}
+          <div class="session-dl-row">
+            <button class="btn-outline" onclick="downloadSessionTxt(${s.id})">⬇ Download Record (.txt)</button>
+            <button class="btn-outline" onclick="printSession(${s.id})">🖨 Print / Save PDF</button>
+          </div>
+        </div>`;
+      sb.appendChild(card);
+    });
+  }
+
+  // Summary table
+  renderSummaryTable();
+}
+
+function toggleSession(id){
+  const card=document.getElementById('sc_'+id);
+  card.classList.toggle('open');
+}
+
+/* ─────────────────────────────────────────
+   SUMMARY TABLE
+───────────────────────────────────────── */
+function renderSummaryTable(){
+  const wrap=document.getElementById('summaryTableWrap');
+  if(allSessions.length===0){
+    wrap.innerHTML=`<div class="empty-state"><div>📊</div><p>No quiz data yet. The summary will populate as employees complete quizzes.</p></div>`;
+    return;
+  }
+  const passCount=allSessions.filter(s=>s.passed).length;
+  const avgPct=Math.round(allSessions.reduce((a,s)=>a+s.pct,0)/allSessions.length);
+  wrap.innerHTML=`
+    <div style="display:flex;gap:16px;margin-bottom:18px;flex-wrap:wrap">
+      <div style="background:#f8f9fa;border:1.5px solid #dde3ed;border-radius:8px;padding:12px 20px;flex:1;min-width:120px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#1a2744">${allSessions.length}</div>
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px">Total Quizzes</div>
+      </div>
+      <div style="background:#edfaf1;border:1.5px solid #27ae6044;border-radius:8px;padding:12px 20px;flex:1;min-width:120px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#27ae60">${passCount}</div>
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px">Passed</div>
+      </div>
+      <div style="background:#fdf0ee;border:1.5px solid #c0392b44;border-radius:8px;padding:12px 20px;flex:1;min-width:120px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#c0392b">${allSessions.length-passCount}</div>
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px">Failed</div>
+      </div>
+      <div style="background:#f8f9fa;border:1.5px solid #dde3ed;border-radius:8px;padding:12px 20px;flex:1;min-width:120px;text-align:center">
+        <div style="font-size:22px;font-weight:800;color:#1a2744">${avgPct}%</div>
+        <div style="font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.5px">Avg Score</div>
+      </div>
+    </div>
+    <table class="summary-table">
+      <thead><tr>
+        <th>#</th><th>Name</th><th>Emp #</th><th>Position</th><th>Department</th>
+        <th>Score</th><th>%</th><th>Result</th><th>Date</th>
+      </tr></thead>
+      <tbody>
+        ${allSessions.map((s,i)=>`<tr>
+          <td>${i+1}</td>
+          <td>${s.emp.firstName} ${s.emp.lastName}</td>
+          <td>${s.emp.empNum}</td>
+          <td>${s.emp.position}</td>
+          <td>${s.emp.dept}</td>
+          <td>${s.score}/${s.total}</td>
+          <td>${s.pct}%</td>
+          <td><span class="pill-sm ${s.passed?'pill-pass':'pill-fail'}">${s.passed?'PASS':'FAIL'}</span></td>
+          <td style="white-space:nowrap;font-size:11px">${s.emp.date}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`;
+}
+
+/* ─────────────────────────────────────────
+   EXCEL DOWNLOAD (XLSX via SpreadsheetML XML)
+───────────────────────────────────────── */
+function downloadExcel(){
+  if(!allSessions.length){alert('No quiz sessions to export yet.');return;}
+
+  const esc=v=>String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+  // Summary sheet rows
+  let summaryRows=`<Row ss:Index="1">
+    <Cell ss:StyleID="hdr"><Data ss:Type="String">Wedlock Paper Converters Ltd. — GMP Quiz Summary Report</Data></Cell>
+  </Row>
+  <Row ss:Index="2">
+    <Cell><Data ss:Type="String">Generated: ${new Date().toLocaleString()}</Data></Cell>
+  </Row>
+  <Row ss:Index="3"></Row>
+  <Row ss:Index="4">
+    <Cell ss:StyleID="th"><Data ss:Type="String">#</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">First Name</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Last Name</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Employee #</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Position</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Department</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Score</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Score %</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Result</Data></Cell>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Date Completed</Data></Cell>
+  </Row>`;
+
+  allSessions.forEach((s,i)=>{
+    const resultStyle=s.passed?'passCell':'failCell';
+    summaryRows+=`<Row>
+      <Cell><Data ss:Type="Number">${i+1}</Data></Cell>
+      <Cell><Data ss:Type="String">${esc(s.emp.firstName)}</Data></Cell>
+      <Cell><Data ss:Type="String">${esc(s.emp.lastName)}</Data></Cell>
+      <Cell><Data ss:Type="String">${esc(s.emp.empNum)}</Data></Cell>
+      <Cell><Data ss:Type="String">${esc(s.emp.position)}</Data></Cell>
+      <Cell><Data ss:Type="String">${esc(s.emp.dept)}</Data></Cell>
+      <Cell><Data ss:Type="String">${s.score}/${s.total}</Data></Cell>
+      <Cell><Data ss:Type="Number">${s.pct}</Data></Cell>
+      <Cell ss:StyleID="${resultStyle}"><Data ss:Type="String">${s.passed?'PASS':'FAIL'}</Data></Cell>
+      <Cell><Data ss:Type="String">${esc(s.emp.date)}</Data></Cell>
+    </Row>`;
+  });
+
+  // Stats rows
+  const passCount=allSessions.filter(s=>s.passed).length;
+  const avgPct=Math.round(allSessions.reduce((a,s)=>a+s.pct,0)/allSessions.length);
+  summaryRows+=`<Row></Row>
+  <Row>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Total Sessions</Data></Cell>
+    <Cell><Data ss:Type="Number">${allSessions.length}</Data></Cell>
+  </Row>
+  <Row>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Total Passed</Data></Cell>
+    <Cell><Data ss:Type="Number">${passCount}</Data></Cell>
+  </Row>
+  <Row>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Total Failed</Data></Cell>
+    <Cell><Data ss:Type="Number">${allSessions.length-passCount}</Data></Cell>
+  </Row>
+  <Row>
+    <Cell ss:StyleID="th"><Data ss:Type="String">Average Score %</Data></Cell>
+    <Cell><Data ss:Type="Number">${avgPct}</Data></Cell>
+  </Row>`;
+
+  // Detail sheet rows
+  let detailRows=`<Row ss:Index="1">
+    <Cell ss:StyleID="hdr"><Data ss:Type="String">Wedlock Paper Converters Ltd. — GMP Quiz Detail Report</Data></Cell>
+  </Row>
+  <Row ss:Index="2">
+    <Cell><Data ss:Type="String">Generated: ${new Date().toLocaleString()}</Data></Cell>
+  </Row>`;
+
+  allSessions.forEach((s,si)=>{
+    detailRows+=`<Row><Cell ss:StyleID="th"><Data ss:Type="String">Session ${si+1}: ${esc(s.emp.firstName)} ${esc(s.emp.lastName)}</Data></Cell></Row>
+    <Row>
+      <Cell><Data ss:Type="String">Emp #: ${esc(s.emp.empNum)}</Data></Cell>
+      <Cell><Data ss:Type="String">Position: ${esc(s.emp.position)}</Data></Cell>
+      <Cell><Data ss:Type="String">Dept: ${esc(s.emp.dept)}</Data></Cell>
+      <Cell><Data ss:Type="String">Date: ${esc(s.emp.date)}</Data></Cell>
+      <Cell><Data ss:Type="String">Result: ${s.passed?'PASS':'FAIL'} (${s.score}/${s.total} — ${s.pct}%)</Data></Cell>
+    </Row>
+    <Row>
+      <Cell ss:StyleID="th"><Data ss:Type="String">Q#</Data></Cell>
+      <Cell ss:StyleID="th"><Data ss:Type="String">Question</Data></Cell>
+      <Cell ss:StyleID="th"><Data ss:Type="String">Employee Answer</Data></Cell>
+      <Cell ss:StyleID="th"><Data ss:Type="String">Correct Answer</Data></Cell>
+      <Cell ss:StyleID="th"><Data ss:Type="String">Correct?</Data></Cell>
+      <Cell ss:StyleID="th"><Data ss:Type="String">Explanation</Data></Cell>
+    </Row>`;
+    s.quiz.forEach((q,qi)=>{
+      const correct=s.answers[qi]===q.correct;
+      detailRows+=`<Row>
+        <Cell><Data ss:Type="Number">${qi+1}</Data></Cell>
+        <Cell><Data ss:Type="String">${esc(q.question)}</Data></Cell>
+        <Cell><Data ss:Type="String">${String.fromCharCode(65+s.answers[qi])}. ${esc(q.options[s.answers[qi]])}</Data></Cell>
+        <Cell><Data ss:Type="String">${String.fromCharCode(65+q.correct)}. ${esc(q.options[q.correct])}</Data></Cell>
+        <Cell ss:StyleID="${correct?'passCell':'failCell'}"><Data ss:Type="String">${correct?'YES':'NO'}</Data></Cell>
+        <Cell><Data ss:Type="String">${esc(q.explanation)}</Data></Cell>
+      </Row>`;
+    });
+    detailRows+='<Row></Row>';
+  });
+
+  const xml=`<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:x="urn:schemas-microsoft-com:office:excel">
+ <Styles>
+  <Style ss:ID="hdr"><Font ss:Bold="1" ss:Size="13" ss:Color="#1A2744"/></Style>
+  <Style ss:ID="th"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#1A2744" ss:Pattern="Solid"/></Style>
+  <Style ss:ID="passCell"><Font ss:Bold="1" ss:Color="#27AE60"/><Interior ss:Color="#EDFAF1" ss:Pattern="Solid"/></Style>
+  <Style ss:ID="failCell"><Font ss:Bold="1" ss:Color="#C0392B"/><Interior ss:Color="#FDF0EE" ss:Pattern="Solid"/></Style>
+ </Styles>
+ <Worksheet ss:Name="Summary">
+  <Table>${summaryRows}</Table>
+ </Worksheet>
+ <Worksheet ss:Name="Detail by Employee">
+  <Table>${detailRows}</Table>
+ </Worksheet>
+</Workbook>`;
+
+  const blob=new Blob([xml],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`GMP_Quiz_Report_${new Date().toISOString().slice(0,10)}.xls`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+/* ─────────────────────────────────────────
+   SUMMARY TXT DOWNLOAD
+───────────────────────────────────────── */
+function downloadSummaryTxt(){
+  if(!allSessions.length){alert('No sessions yet.');return;}
+  const lines=[];
+  lines.push('='.repeat(60));
+  lines.push('  WEDLOCK PAPER CONVERTERS LTD.');
+  lines.push('  GMP QUIZ — SUMMARY REPORT (ADMIN)');
+  lines.push(`  Generated: ${new Date().toLocaleString()}`);
+  lines.push('='.repeat(60));
+  const passCount=allSessions.filter(s=>s.passed).length;
+  const avg=Math.round(allSessions.reduce((a,s)=>a+s.pct,0)/allSessions.length);
+  lines.push(`\nTotal Sessions: ${allSessions.length}  |  Passed: ${passCount}  |  Failed: ${allSessions.length-passCount}  |  Avg Score: ${avg}%\n`);
+  lines.push('-'.repeat(60));
+  allSessions.forEach((s,i)=>{
+    lines.push(`${i+1}. ${s.emp.firstName} ${s.emp.lastName} (Emp #${s.emp.empNum}) — ${s.emp.position} — ${s.emp.dept}`);
+    lines.push(`   Score: ${s.score}/${s.total} (${s.pct}%) — ${s.passed?'PASS':'FAIL'} — ${s.emp.date}`);
+  });
+  lines.push('\n'+'='.repeat(60));
+  const blob=new Blob([lines.join('\n')],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`GMP_Summary_${Date.now()}.txt`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+/* ─────────────────────────────────────────
+   PER-SESSION DOWNLOAD / PRINT
+───────────────────────────────────────── */
+function buildSessionRecord(s){
+  const lines=[];
+  lines.push('='.repeat(58));
+  lines.push('  WEDLOCK PAPER CONVERTERS LTD.');
+  lines.push('  GMP TRAINING QUIZ — OFFICIAL RECORD');
+  lines.push('  *** ADMINISTRATOR COPY — CONFIDENTIAL ***');
+  lines.push('='.repeat(58));
+  lines.push(`\nName:            ${s.emp.firstName} ${s.emp.lastName}`);
+  lines.push(`Employee Number: ${s.emp.empNum}`);
+  lines.push(`Position:        ${s.emp.position}`);
+  lines.push(`Department:      ${s.emp.dept}`);
+  lines.push(`Date Completed:  ${s.emp.date}`);
+  lines.push(`\nScore:  ${s.score}/${s.total} (${s.pct}%)  —  ${s.passed?'PASS':'FAIL'}  —  Passing: 4/5 (80%)\n`);
+  lines.push('-'.repeat(58));
+  s.quiz.forEach((q,i)=>{
+    const correct=s.answers[i]===q.correct;
+    lines.push(`\nQ${i+1}: ${q.question}`);
+    q.options.forEach((opt,oi)=>{
+      let p='    ';
+      if(oi===s.answers[i]&&oi===q.correct)p=' >> ';
+      else if(oi===s.answers[i])p=' XX ';
+      else if(oi===q.correct)p=' ** ';
+      lines.push(`${p}${String.fromCharCode(65+oi)}. ${opt}`);
+    });
+    lines.push(`    ${correct?'CORRECT':'INCORRECT'} — ${q.explanation}`);
+  });
+  lines.push('\n'+'='.repeat(58));
+  lines.push('LEGEND: >> correct answer  XX wrong answer  ** correct answer not chosen');
+  lines.push('\nSupervisor: _______________________  Date: __________');
+  lines.push('\nRetain min. 3 years per GMP compliance.');
+  return lines.join('\n');
+}
+
+function downloadSessionTxt(id){
+  const s=allSessions.find(x=>x.id===id); if(!s)return;
+  const blob=new Blob([buildSessionRecord(s)],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`GMP_${s.emp.lastName}_${s.emp.empNum}_${s.id}.txt`;
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function printSession(id){
+  const s=allSessions.find(x=>x.id===id); if(!s)return;
+  let qHtml='';
+  s.quiz.forEach((q,i)=>{
+    const correct=s.answers[i]===q.correct;
+    qHtml+=`<div style="margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #eee">
+      <div style="font-weight:700;margin-bottom:5px;color:#1a2744">Q${i+1}: ${q.question}</div>`;
+    q.options.forEach((opt,oi)=>{
+      const isU=oi===s.answers[i],isC=oi===q.correct;
+      let st='padding:3px 8px;border-radius:4px;margin-bottom:3px;font-size:12px;';
+      if(isU&&isC)st+='background:#edfaf1;color:#27ae60;font-weight:700';
+      else if(isU)st+='background:#fdf0ee;color:#c0392b;font-weight:700';
+      else if(isC)st+='background:#edfaf1;color:#27ae60';
+      else st+='color:#555';
+      qHtml+=`<div style="${st}">${String.fromCharCode(65+oi)}. ${opt}${isU&&isC?' ✓ Correct':isU?' ✗ Incorrect':isC&&!isU?' ← Correct':''}</div>`;
+    });
+    qHtml+=`<div style="margin-top:5px;font-size:11px;color:#666;font-style:italic;background:#f8f9fa;padding:6px 9px;border-radius:4px;border-left:3px solid #1a2744">${q.explanation}</div></div>`;
+  });
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>GMP Record — ${s.emp.lastName}</title>
+  <style>body{font-family:Arial,sans-serif;max-width:700px;margin:28px auto;padding:0 20px;color:#1a1a2e}
+  h1{color:#1a2744;font-size:18px}table{width:100%;border-collapse:collapse;margin-bottom:20px}
+  td{padding:6px 10px;border:1px solid #ddd;font-size:12px}th{background:#1a2744;color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+  .pass{color:#27ae60;font-weight:700}.fail{color:#c0392b;font-weight:700}
+  .stamp{background:#1a2744;color:#fff;display:inline-block;padding:2px 10px;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:1px}
+  @media print{body{margin:12px}}</style></head><body>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #1a2744;padding-bottom:10px;margin-bottom:18px">
+    <div><div class="stamp">ADMINISTRATOR COPY — CONFIDENTIAL</div>
+    <h1 style="margin-top:5px">Wedlock Paper Converters Ltd.</h1>
+    <div style="font-size:12px;color:#666">GMP Training Quiz — Official Record</div></div>
+    <div style="font-size:11px;color:#888;text-align:right">${s.emp.date}</div>
+  </div>
+  <table><thead><tr><th colspan="2">Employee Information</th></tr></thead>
+  <tr><td><b>Full Name</b></td><td>${s.emp.firstName} ${s.emp.lastName}</td></tr>
+  <tr><td><b>Employee Number</b></td><td>${s.emp.empNum}</td></tr>
+  <tr><td><b>Position</b></td><td>${s.emp.position}</td></tr>
+  <tr><td><b>Department</b></td><td>${s.emp.dept}</td></tr>
+  </table>
+  <table><thead><tr><th colspan="2">Results</th></tr></thead>
+  <tr><td><b>Score</b></td><td><b>${s.score}/${s.total} (${s.pct}%)</b></td></tr>
+  <tr><td><b>Result</b></td><td class="${s.passed?'pass':'fail'}">${s.passed?'PASS':'FAIL'}</td></tr>
+  <tr><td><b>Passing Threshold</b></td><td>4/5 (80%)</td></tr>
+  </table>
+  <h2 style="color:#1a2744;font-size:14px;margin-bottom:12px">Question Review</h2>
+  ${qHtml}
+  <div style="margin-top:24px;padding-top:14px;border-top:2px solid #1a2744">
+  <table><tr>
+    <td style="border:none;width:50%"><b>Supervisor Signature:</b><br><br>____________________________</td>
+    <td style="border:none;width:25%"><b>Date:</b><br><br>_____________</td>
+    <td style="border:none;width:25%"><b>Initials:</b><br><br>_____________</td>
+  </tr></table>
+  <p style="font-size:10px;color:#aaa;margin-top:12px">ADMIN COPY — Retain 3+ years per GMP compliance. &copy; Wedlock Paper Converters Ltd.</p>
+  </div></body></html>`);
+  w.document.close(); w.focus(); setTimeout(()=>w.print(),600);
+}
+</script>
+</body>
+</html>
