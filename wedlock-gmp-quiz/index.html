@@ -274,7 +274,6 @@ footer{text-align:center;color:#aaa;font-size:11px;padding:14px;border-top:1px s
               <option>Director of HR</option><option>General Labourer</option>
               <option>Plant Manager</option><option>PrePress Coordinator</option>
               <option>Plant Supervisor</option><option>Quality Control Manager</option>
-              <option>CEO</option>
             </select>
             <div class="err-msg" id="ePosition"></div>
           </div>
@@ -294,6 +293,20 @@ footer{text-align:center;color:#aaa;font-size:11px;padding:14px;border-top:1px s
               <option>EXECUTIVE</option><option>PLANT MANAGEMENT</option>
             </select>
             <div class="err-msg" id="eDept"></div>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="field">
+            <label>Quiz Language <span class="required">*</span></label>
+            <select id="language">
+              <option value="">— Select your language —</option>
+              <option value="English">🇨🇦 English</option>
+              <option value="Hindi">🇮🇳 Hindi — हिन्दी</option>
+              <option value="Punjabi">🇮🇳 Punjabi — ਪੰਜਾਬੀ</option>
+              <option value="Spanish">🇲🇽 Spanish — Español</option>
+              <option value="Vietnamese">🇻🇳 Vietnamese — Tiếng Việt</option>
+            </select>
+            <div class="err-msg" id="eLanguage"></div>
           </div>
         </div>
         <button class="btn-primary" onclick="startQuiz()">Submit &amp; Begin Quiz →</button>
@@ -482,7 +495,8 @@ function validate(){
    {id:'lastName', eid:'eLastName', msg:'Last name is required'},
    {id:'empNum',   eid:'eEmpNum',   msg:'Employee number is required'},
    {id:'position', eid:'ePosition', msg:'Please select your position'},
-   {id:'dept',     eid:'eDept',     msg:'Please select your department'}
+   {id:'dept',     eid:'eDept',     msg:'Please select your department'},
+   {id:'language', eid:'eLanguage', msg:'Please select your language'}
   ].forEach(f=>{
     const el=document.getElementById(f.id),em=document.getElementById(f.eid);
     if(!el.value.trim()){el.classList.add('err');em.textContent=f.msg;ok=false;}
@@ -501,6 +515,7 @@ async function startQuiz(){
        empNum:   document.getElementById('empNum').value.trim(),
        position: document.getElementById('position').value,
        dept:     document.getElementById('dept').value,
+       language: document.getElementById('language').value,
        date:     new Date().toLocaleString()};
   document.getElementById('stepReg').style.display='none';
   document.getElementById('stepLoading').style.display='block';
@@ -512,6 +527,7 @@ async function startQuiz(){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         seed,
+        language: emp.language,
         prompt:`Generate 5 randomized GMP quiz questions from:\n\n${GMP_CONTENT}\n\nReturn only JSON array.`
       })
     });
@@ -522,7 +538,7 @@ async function startQuiz(){
     quiz=quiz.slice(0,5); answers={}; currentQ=0;
     document.getElementById('stepLoading').style.display='none';
     document.getElementById('stepQuiz').style.display='block';
-    document.getElementById('qCardSub').textContent=`${emp.firstName} ${emp.lastName} — ${emp.position} — Emp #${emp.empNum}`;
+    document.getElementById('qCardSub').textContent=`${emp.firstName} ${emp.lastName} — ${emp.position} — Emp #${emp.empNum} — ${emp.language}`;
     renderQ();
   }catch(e){
     document.getElementById('stepLoading').style.display='none';
@@ -627,6 +643,7 @@ function resetAll(){
   ['firstName','lastName','empNum'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('position').value='';
   document.getElementById('dept').value='';
+  document.getElementById('language').value='';
   document.getElementById('stepResults').style.display='none';
   document.getElementById('stepReg').style.display='block';
   setStep(1);
