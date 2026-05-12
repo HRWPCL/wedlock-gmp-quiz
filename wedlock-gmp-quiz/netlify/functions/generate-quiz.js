@@ -12,18 +12,31 @@ exports.handler = async function(event) {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1500,
-      system: `You are a GMP quiz generator for Wedlock Paper Converters Ltd. Generate exactly 5 multiple-choice questions from the GMP training content (seed:${seed}). Vary topics each time. IMPORTANT: Generate ALL questions, answer options, and explanations written entirely in ${selectedLanguage}. If the language is not English, translate everything fully and naturally into ${selectedLanguage} — do not mix languages. Return ONLY a valid JSON array, no markdown. Each item: "question"(string),"options"(4 strings),"correct"(0-3),"explanation"(1-2 sentences). All text must be in ${selectedLanguage}.`,
+      max_tokens: 2000,
+      system: `You are a GMP quiz generator for Wedlock Paper Converters Ltd. Generate exactly 5 multiple-choice questions from the GMP training content (seed:${seed}). Vary topics each time. IMPORTANT: Generate ALL questions, answer options, and explanations written entirely in ${selectedLanguage}. If the language is not English, translate everything fully and naturally into ${selectedLanguage} — do not mix languages. Return ONLY a valid JSON array, no markdown, no extra text before or after. Each item must have exactly these keys: "question"(string),"options"(array of exactly 4 strings),"correct"(number 0-3),"explanation"(string). Ensure all strings are properly escaped. All text must be in ${selectedLanguage}.`,
       messages: [{ role: 'user', content: prompt }]
     })
   });
 
   const data = await res.json();
-  const text = (data.content || []).map(b => b.text || '').join('');
+  let text = (data.content || []).map(b => b.text || '').join('');
+
+  // Clean up common JSON issues
+  text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+
+  // Find the JSON array in the response
+  const startIdx = text.indexOf('[');
+  const endIdx = text.lastIndexOf(']');
+  if (startIdx !== -1 && endIdx !== -1) {
+    text = text.substring(startIdx, endIdx + 1);
+  }
 
   return {
     statusCode: 200,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({ text })
   };
 };
