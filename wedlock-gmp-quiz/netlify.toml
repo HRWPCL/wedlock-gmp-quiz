@@ -1,6 +1,2 @@
-[build]
-  base = "wedlock-gmp-quiz"
-  publish = "wedlock-gmp-quiz"
-
 [functions]
   directory = "wedlock-gmp-quiz/netlify/functions"
