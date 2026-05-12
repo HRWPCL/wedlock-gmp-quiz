@@ -1,5 +1,6 @@
 [build]
-  publish = "."
+  base = "wedlock-gmp-quiz"
+  publish = "wedlock-gmp-quiz"
 
 [functions]
-  directory = "netlify/functions"
+  directory = "wedlock-gmp-quiz/netlify/functions"
