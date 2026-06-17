@@ -531,7 +531,8 @@ async function startQuiz(){
         prompt:`Generate 5 randomized GMP quiz questions from:\n\n${GMP_CONTENT}\n\nReturn only JSON array.`
       })
     });
-    const data=await res.json();
+    const data=await res.json(); 
+    if(data.raw) throw new Error('AI returned: '+data.raw);
     const raw = data.text || data.error || ''; if (!raw) throw new Error('Empty response from quiz generator');
     quiz=JSON.parse(raw.replace(/```json|```/g,'').trim());
     if(!Array.isArray(quiz)||quiz.length<5) throw new Error('Bad quiz data');
