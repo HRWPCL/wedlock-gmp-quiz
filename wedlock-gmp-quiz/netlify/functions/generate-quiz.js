@@ -1,63 +1,51 @@
 exports.handler = async function(event) {
-  let parsed;
   try {
-    parsed = JSON.parse(event.body);
+    const { seed, language } = JSON.parse(event.body);
+    const selectedLanguage = language || 'English';
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 4000,
+        messages: [{
+          role: 'user',
+          content: `Create 5 short GMP quiz questions for a packaging factory in ${selectedLanguage} (seed:${seed}). Topics to cover: hand washing rules, PPE requirements, hair nets and beard nets, chemical storage, documentation rules, smoking policy, phone rules, food on production floor, safety shoes, ink room access. Return ONLY a JSON array. Each item: {"question":"...","options":["...","...","...","..."],"correct":0,"explanation":"..."}. Keep all text short. All text in ${selectedLanguage}. Start with [`
+        }]
+      })
+    });
+
+    const data = await res.json();
+    if(data.error) throw new Error(data.error.message);
+
+    let text = (data.content||[]).map(b=>b.text||'').join('');
+    text = '[' + text;
+    text = text.replace(/```json/gi,'').replace(/```/g,'').trim();
+
+    const si = text.indexOf('[');
+    const ei = text.lastIndexOf(']');
+    if(si === -1 || ei === -1) throw new Error('No JSON array found in response');
+    text = text.substring(si, ei+1);
+
+    const result = JSON.parse(text);
+    if(!Array.isArray(result) || result.length < 5) throw new Error('Not enough questions generated');
+
+    return {
+      statusCode: 200,
+      headers: {'Access-Control-Allow-Origin':'*','Content-Type':'application/json'},
+      body: JSON.stringify({ text })
+    };
+
   } catch(e) {
     return {
       statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: '', error: 'Bad request body' })
+      headers: {'Access-Control-Allow-Origin':'*','Content-Type':'application/json'},
+      body: JSON.stringify({ text:'', error: e.message })
     };
   }
-
-  const { prompt, seed, language } = parsed;
-  const selectedLanguage = language || 'English';
-
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4000,
-      system: `You are a GMP quiz generator for Wedlock Paper Converters Ltd. Generate exactly 5 multiple-choice questions from the GMP training content (seed:${seed}). CRITICAL INSTRUCTIONS: 1) Return ONLY a raw JSON array starting with [ and ending with ] — absolutely no other text before or after. 2) Write ALL text in ${selectedLanguage}. 3) Keep all text short and concise. 4) Each item must have: "question"(string), "options"(array of exactly 4 strings), "correct"(integer 0-3), "explanation"(string). 5) Do not include any introduction, explanation, or markdown. Start your response with [ and end with ]`,
-      messages: [{ role: 'user', content: `Generate 5 GMP quiz questions in ${selectedLanguage}. Return ONLY the JSON array, nothing else. Start immediately with [` }]
-    })
-  });
-
-  const data = await res.json();
-  let text = (data.content || []).map(b => b.text || '').join('');
-
-  // Aggressive cleanup
-  text = text.replace(/```json/gi, '').replace(/```/g, '').trim();
-
-  // Extract JSON array
-  const startIdx = text.indexOf('[');
-  const endIdx = text.lastIndexOf(']');
-  if (startIdx !== -1 && endIdx !== -1) {
-    text = text.substring(startIdx, endIdx + 1);
-  }
-
-  // Validate
-  try {
-    const parsed = JSON.parse(text);
-    if (!Array.isArray(parsed) || parsed.length < 5) {
-      throw new Error('Not enough questions');
-    }
-  } catch(e) {
-    return {
-      statusCode: 200,
-      headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: '', error: e.message, raw: text.substring(0, 200) })
-    };
-  }
-
-  return {
-    statusCode: 200,
-    headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text })
-  };
 };
