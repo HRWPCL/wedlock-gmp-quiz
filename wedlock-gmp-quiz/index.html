@@ -531,10 +531,13 @@ async function startQuiz(){
         prompt:`Generate 5 randomized GMP quiz questions from:\n\n${GMP_CONTENT}\n\nReturn only JSON array.`
       })
     });
-    const data=await res.json(); 
-    if(data.raw) throw new Error('AI returned: '+data.raw);
-    const raw = data.text || data.error || ''; if (!raw) throw new Error('Empty response from quiz generator');
-    quiz=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    const data=await res.json();
+    if(data.error) throw new Error(data.error);
+    if(!data.text) throw new Error('Empty response from quiz generator');
+    let raw=data.text.replace(/```json/gi,'').replace(/```/g,'').trim();
+    const si=raw.indexOf('['), ei=raw.lastIndexOf(']');
+    if(si!==-1&&ei!==-1) raw=raw.substring(si,ei+1);
+    quiz=JSON.parse(raw);
     if(!Array.isArray(quiz)||quiz.length<5) throw new Error('Bad quiz data');
     quiz=quiz.slice(0,5); answers={}; currentQ=0;
     document.getElementById('stepLoading').style.display='none';
