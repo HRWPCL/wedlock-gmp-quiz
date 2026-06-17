@@ -532,7 +532,7 @@ async function startQuiz(){
       })
     });
     const data=await res.json();
-    const raw=data.text;
+    const raw = data.text || data.error || ''; if (!raw) throw new Error('Empty response from quiz generator');
     quiz=JSON.parse(raw.replace(/```json|```/g,'').trim());
     if(!Array.isArray(quiz)||quiz.length<5) throw new Error('Bad quiz data');
     quiz=quiz.slice(0,5); answers={}; currentQ=0;
