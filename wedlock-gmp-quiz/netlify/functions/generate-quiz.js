@@ -15,7 +15,7 @@ exports.handler = async function(event) {
         max_tokens: 4000,
         messages: [{
           role: 'user',
-          content: `Create 5 short GMP quiz questions for a packaging factory in ${selectedLanguage} (seed:${seed}). Topics to cover: hand washing rules, PPE requirements, hair nets and beard nets, chemical storage, documentation rules, smoking policy, phone rules, food on production floor, safety shoes, ink room access. Return ONLY a JSON array. Each item: {"question":"...","options":["...","...","...","..."],"correct":0,"explanation":"..."}. Keep all text short. All text in ${selectedLanguage}. Start with [`
+          content: `Write 5 GMP factory quiz questions in ${selectedLanguage} (seed:${seed}). Rules: max 10 words per question, max 5 words per answer option, max 10 words per explanation. Return ONLY JSON array, no other text. Format: [{"question":"?","options":["a","b","c","d"],"correct":0,"explanation":"..."},{"question":"?","options":["a","b","c","d"],"correct":1,"explanation":"..."},{"question":"?","options":["a","b","c","d"],"correct":2,"explanation":"..."},{"question":"?","options":["a","b","c","d"],"correct":3,"explanation":"..."},{"question":"?","options":["a","b","c","d"],"correct":0,"explanation":"..."}]`
         }]
       })
     });
@@ -49,4 +49,5 @@ exports.handler = async function(event) {
     };
   }
 };
+
 
