@@ -527,8 +527,7 @@ async function startQuiz(){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         seed,
-        language: emp.language,
-        prompt:`Generate 5 randomized GMP quiz questions from:\n\n${GMP_CONTENT}\n\nReturn only JSON array.`
+        language: emp.language
       })
     });
     const data=await res.json();
